@@ -1,0 +1,30 @@
+% Define the system matrices
+A = [0, 0, -1.95, 0;
+     0, 0, 0, 1;
+     0, -0.12864, -1.9148, -0.0082;
+     0, 21.4745, 26.31, -0.1362];
+
+B = [0;
+     0;
+     -6.1343;
+     84.303];
+
+C = [1, 0, 0, 0;
+     0, 1, 0, 0;
+     0, 0, 1, 0;
+     0, 0, 0, 1];
+
+D = [0;
+     0;
+     0;
+     0];
+
+% Define the desired characteristics
+overshoot = 0.3; % 30%
+settlingTime = 5; % seconds
+
+% Compute the desired closed-loop poles
+desiredPoles = logspace(log10(1 / settlingTime), log10(4 / settlingTime), 4) - overshoot * (2 * pi / settlingTime) * 1i;
+
+% Design the state feedback controller
+K = place(A, B, desiredPoles);
